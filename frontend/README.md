@@ -1,54 +1,193 @@
-# React + TypeScript + Vite
+# 📝 Guestbook Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack guestbook app built with:
 
-Currently, two official plugins are available:
+- ⚛️ React + TypeScript + Vite (frontend)
+- 🔧 Node.js + Express + Sequelize + TypeScript (backend)
+- 🛢️ MySQL (database)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Visitors can view the latest messages and post their own via a simple interface.  
+This app is designed to be **easy to maintain even by 50+ developers**.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ⚙️ Prerequisites
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Before starting, make sure you have installed:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Node.js >= 18
+- npm >= 9
+- MySQL Server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🗄️ MySQL Setup
+
+1. Pokreni sledeći SQL kod u MySQL konzoli iz ovog fajla: C:\Users\djole\Desktop\guestbook\backend\database\schema.sql
+
+2. Pokreni sledeći SQL kod u MySQL konzoli iz ovog fajla(opciono Testpodaci): C:\Users\djole\Desktop\guestbook\backend\database\populateShema.sql
+
+
+🚀 Backend Setup
+Uđi u backend folder:
+
+bash
+Copy
+Edit
+cd backend
+Instaliraj zavisnosti:
+
+bash
+Copy
+Edit
+npm install
+Kreiraj .env fajl:
+
+env
+Copy
+Edit
+DB_HOST=localhost
+DB_USER=guestbook_user
+DB_PASSWORD=securepassword123
+DB_NAME=guestbook
+PORT=3001
+NODE_ENV=development
+
+
+Pokreni server: npm run dev
+
+
+📦 Backend Dependencies
+Glavne:
+
+express
+
+sequelize
+
+sequelize-typescript
+
+mysql2
+
+dotenv
+
+cors
+
+body-parser
+
+reflect-metadata
+
+Dev:
+
+typescript
+
+ts-node
+
+ts-node-dev
+
+@types/express
+
+@types/node
+
+@types/cors
+
+@types/body-parser
+
+
+🌐 API Endpoints
+Method	Endpoint	Description
+GET	/api/messages	Vrati poslednjih 10 poruka
+POST	/api/messages	Kreiraj novu poruku
+GET	/api/health	Provera dostupnosti servera
+
+
+💻 Frontend Setup
+Uđi u frontend folder:
+
+bash
+Copy
+Edit
+cd ../frontend
+Instaliraj zavisnosti:
+
+bash
+Copy
+Edit
+npm install
+Pokreni frontend:
+
+bash
+Copy
+Edit
+npm run dev
+Frontend će raditi na: http://localhost:5173
+
+
+
+📦 Frontend Dependencies
+Glavne:
+
+react
+
+react-dom
+
+react-router-dom
+
+axios
+
+Dev:
+
+vite
+
+typescript
+
+@vitejs/plugin-react
+
+@types/react
+
+@types/react-dom
+
+@types/node
+
+🧾 Funkcionalnosti
+🏠 Home Page (/)
+Prikazuje naslov “Guestbook”
+
+Tekst: “See what people wrote about us and feel free to leave a message.”
+
+Prikazuje poslednjih 10 poruka
+
+Dugme “Leave a message” vodi na Message Page
+
+✉️ Message Page (/message)
+Forma sa poljima:
+
+Message
+
+Name
+
+Dugme “Post”
+
+On submit:
+
+Disablovanje dugmeta
+
+Prikaz statusa (“Sending”, “Success”, “Failed”)
+
+Validacija unosa
+
+Obrada mrežnih grešaka
+
+✅ Validacija
+Na backendu:
+
+name i message su obavezni
+
+name max 100 karaktera
+
+Sequelize validacije + Express middleware
+
+Na frontendu:
+
+Polja ne mogu biti prazna
+
+Onemogućeno više slanja dok traje zahtev
