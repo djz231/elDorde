@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { MessageController } from '../controllers/messages.controller';
-
+import { validateMessageInput } from '../middlewares/validation.middleware';
 
 const router = Router();
 const messageController = new MessageController();
@@ -56,6 +56,6 @@ router.get('/', messageController.getMessages);
  *       500:
  *         description: Server error
  */
-router.post('/', messageController.createMessage);
+router.post('/', validateMessageInput, messageController.createMessage);
 
 export default router;
