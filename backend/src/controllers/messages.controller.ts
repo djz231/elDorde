@@ -8,22 +8,32 @@ export class MessageController {
    * @access  Public
    */
   public async getMessages(req: Request, res: Response): Promise<void> {
-    try {
-      const messages = await Message.findAll({
-        order: [['createdAt', 'DESC']], // koristi camelCase za Sequelize
-        limit: 10,
-      });
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = (page - 1) * limit;
 
-      // Ne mapiraj nazive, frontend očekuje camelCase
-      res.status(200).json(messages);
-    } catch (error) {
-      console.error('Error fetching messages:', error);
-      res.status(500).json({
-        error: 'Server error',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      });
-    }
+    const { count, rows: messages } = await Message.findAndCountAll({
+      order: [['createdAt', 'DESC']],
+      limit,
+      offset,
+    });
+
+    res.status(200).json({
+      messages,
+      total: count,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    });
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    res.status(500).json({
+      error: 'Server error',
+      details: error instanceof Error ? error.message : 'Unknown error',
+    });
   }
+}
+
 
   /**
    * @desc    Create new message
